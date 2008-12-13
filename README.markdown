@@ -45,7 +45,7 @@ Getting started
 
 <pre>
 set :ubistrano, {
-  :application  => :my\_app,
+  :application  => :my_app,
   :platform     => :rails,  # :php, :rails, :sinatra
   :repository   => 'git@github.com:user/my-app.git',
   
