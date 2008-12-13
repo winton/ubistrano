@@ -59,7 +59,7 @@ set :ubistrano, {
     :host   => '127.0.0.1'
   }
 }
-</code></pre>
+</pre></code>
 
 require 'ubistrano'
 
@@ -84,7 +84,7 @@ With each task, Ubistrano will describe what it is doing, and wait for a yes/no.
 
 =================================================================================
 Have you already created the user defined in deploy.rb? (y/n)
-</code></pre>
+</pre></code>
 
 Deploy your app
 ---------------
