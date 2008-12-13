@@ -1,0 +1,13 @@
+development: &defaults
+  adapter: mysql
+  database: <%= db_table %>
+  username: <%= db_user %>
+  password: <%= db_pass %>
+  host: localhost
+  socket: /var/run/mysqld/mysqld.sock
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

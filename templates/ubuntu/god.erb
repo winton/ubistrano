@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# God
+#
+# chkconfig: - 85 15
+# description: start, stop, restart God (bet you feel powerful)
+#              
+
+RETVAL=0
+
+case "$1" in
+    start)
+      /usr/local/bin/god -P /var/run/god.pid -l /var/log/god.log
+      /usr/local/bin/god load /usr/local/etc/god.god
+      RETVAL=$?
+  ;;
+    stop)
+      kill `cat /var/run/god.pid`
+      RETVAL=$?
+  ;;
+    restart)
+      kill `cat /var/run/god.pid`
+      /usr/local/bin/god -P /var/run/god.pid -l /var/log/god.log
+      /usr/local/bin/god load /usr/local/etc/god.god
+      RETVAL=$?
+  ;;
+    status)
+      RETVAL=$?
+  ;;
+    *)
+      echo "Usage: god {start|stop|restart|status}"
+      exit 1
+  ;;
+esac      
+
+exit $RETVAL

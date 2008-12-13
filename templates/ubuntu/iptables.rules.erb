@@ -1,0 +1,31 @@
+*filter
+
+# Allows all loopback (lo0) traffic and drop all traffic to 127/8 that doesn't use lo0
+-A INPUT -i lo -j ACCEPT
+-A INPUT -i ! lo -d 127.0.0.0/8 -j REJECT
+
+# Accept all established inbound connections
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow all outbound traffic
+-A OUTPUT -j ACCEPT
+
+# Allow HTTP and HTTPS connections
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Allow SSH connections
+-A INPUT -p tcp -m state --state NEW --dport <%= port %> -j ACCEPT
+
+# Allow ping
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+# Log iptables denied calls
+-A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
+
+# Reject all other inbound
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+
+COMMIT
+# There MUST be a new line after this line!

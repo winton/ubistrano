@@ -1,0 +1,25 @@
+
+Version 2.0.0
+  * Tested on Ubuntu 8.04 LTS Hardy
+  * Deploys PHP, Rails, and Sinatra apps
+  * Redux version with new stack
+  * Apache
+  * Git
+  * God
+  * MySQL
+  * Passenger (mod_rails)
+  * Rails
+  * Ruby Enterprise Edition
+  
+Version 1.1.0
+  * Tested on Debian Etch
+  * Git
+  * Nginx
+  * Mongrel cluster
+  * Monit
+  * MySQL
+  * PHP (Nginx w/ spawn-fcgi)
+  * Rails
+  * Ruby
+  * RubyGems
+  * Sphinx
