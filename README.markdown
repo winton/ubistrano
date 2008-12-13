@@ -43,23 +43,25 @@ Getting started
 
 ### Edit config/deploy.rb
 
-  set :ubistrano, {
-    :application  => :my_app,
-    :platform     => :rails,  # :php, :rails, :sinatra
-    :repository   => 'git@github.com:user/my-app.git',
-
-    :production => {
-      :domain => [ 'myapp.com', 'www.myapp.com' ],
-      :host   => '127.0.0.1'
-    },
-
-    :staging => {
-      :domain => 'staging.myapp.com',
-      :host   => '127.0.0.1'
-    }
+<code><pre>
+set :ubistrano, {
+  :application  => :my\_app,
+  :platform     => :rails,  # :php, :rails, :sinatra
+  :repository   => 'git@github.com:user/my-app.git',
+  
+  :production => {
+    :domain => [ 'myapp.com', 'www.myapp.com' ],
+    :host   => '127.0.0.1'
+  },
+  
+  :staging => {
+    :domain => 'staging.myapp.com',
+    :host   => '127.0.0.1'
   }
+}
+</code></pre>
 
-  require 'ubistrano'
+require 'ubistrano'
 
 Ubistrano uses the same Capistrano options you've come to love, but provides defaults and a few extra options as well.
 
@@ -74,14 +76,15 @@ Set up your Ubuntu Hardy server
 
 ### Example output
 
-  =================================================================================
-  Let's set up an Ubuntu server! (Tested with 8.04 LTS Hardy)
+<code><pre>
+=================================================================================
+Let's set up an Ubuntu server! (Tested with 8.04 LTS Hardy)
 
-  With each task, Ubistrano will describe what it is doing, and wait for a yes/no.
+With each task, Ubistrano will describe what it is doing, and wait for a yes/no.
 
-  =================================================================================
-  Have you already created the user defined in deploy.rb? (y/n)
-	
+=================================================================================
+Have you already created the user defined in deploy.rb? (y/n)
+</code></pre>
 
 Deploy your app
 ---------------
