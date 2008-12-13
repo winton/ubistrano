@@ -72,7 +72,7 @@ Set up your Ubuntu Hardy server
 
 ### From your app directory
 
-  cap ubuntu
+<pre>cap ubuntu</pre>
 
 ### Example output
 
