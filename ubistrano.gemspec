@@ -13,7 +13,34 @@ Gem::Specification.new do |s|
   
   # = MANIFEST =
   s.files = %w[
-
+    MIT-LICENSE
+    README.markdown
+    Rakefile
+    changelog.rdoc
+    example/deploy.rb
+    lib/ubistrano.rb
+    lib/ubistrano/apache.rb
+    lib/ubistrano/deploy.rb
+    lib/ubistrano/gems.rb
+    lib/ubistrano/helpers.rb
+    lib/ubistrano/log.rb
+    lib/ubistrano/mysql.rb
+    lib/ubistrano/rails.rb
+    lib/ubistrano/sinatra.rb
+    lib/ubistrano/ssh.rb
+    lib/ubistrano/stage.rb
+    lib/ubistrano/ubuntu.rb
+    templates/apache/virtual_host.erb
+    templates/log/rotate.conf.erb
+    templates/rails/database.yml.erb
+    templates/sinatra/config.ru.erb
+    templates/ubuntu/apache.god.erb
+    templates/ubuntu/god.erb
+    templates/ubuntu/god.god.erb
+    templates/ubuntu/iptables.rules.erb
+    templates/ubuntu/mysql.god.erb
+    templates/ubuntu/sshd.god.erb
+    ubistrano.gemspec
   ]
   # = MANIFEST =
 end
