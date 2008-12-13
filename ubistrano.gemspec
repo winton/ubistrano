@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name    = 'Ubistrano'
-  s.version = '1.0.0'
-  s.date    = '2008-12-14'
+  s.version = '1.0.1'
+  s.date    = '2008-12-13'
   
   s.summary     = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
   s.description = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"

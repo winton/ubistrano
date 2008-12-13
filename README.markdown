@@ -105,6 +105,6 @@ Deploy to staging
 
 Use any capistrano task, but replace `cap` with `cap staging`.
 
-Example:
+### Example
 
 	cap staging deploy:first
