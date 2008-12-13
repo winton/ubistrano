@@ -43,7 +43,7 @@ Getting started
 
 ### Edit config/deploy.rb
 
-<code><pre>
+<pre>
 set :ubistrano, {
   :application  => :my\_app,
   :platform     => :rails,  # :php, :rails, :sinatra
@@ -59,7 +59,7 @@ set :ubistrano, {
     :host   => '127.0.0.1'
   }
 }
-</pre></code>
+</pre>
 
 require 'ubistrano'
 
@@ -76,7 +76,7 @@ Set up your Ubuntu Hardy server
 
 ### Example output
 
-<code><pre>
+<pre>
 =================================================================================
 Let's set up an Ubuntu server! (Tested with 8.04 LTS Hardy)
 
@@ -84,7 +84,7 @@ With each task, Ubistrano will describe what it is doing, and wait for a yes/no.
 
 =================================================================================
 Have you already created the user defined in deploy.rb? (y/n)
-</pre></code>
+</pre>
 
 Deploy your app
 ---------------
