@@ -4,22 +4,27 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Set up a fresh Ubuntu server"
     task :default do
       puts space(msg(:about_templates))
-      if yes("Have you already created the user defined in deploy.rb?")
-        ssh.default
-        ubuntu.config.default
-        ubuntu.aptitude.default
-        ubuntu.install.default
-        ubuntu.restart
-        puts space(msg(:ubuntu_finished))
-      else
-        puts space(msg(:visudo))
-      end
+      puts space(msg(:visudo)) unless yes("Have you already created the user defined in deploy.rb?")
+      ssh.default
+      ubuntu.config.default
+      ubuntu.aptitude.default
+      ubuntu.install.default
+      ubuntu.restart
+      puts space(msg(:ubuntu_finished))
     end
     
     desc "Restart Ubuntu server"
     task :restart do
       if yes(msg(:ubuntu_restart))
         sudo_each 'shutdown -r now'
+      end
+    end
+    
+    desc "Restart Ubuntu server and wait"
+    task :restart_and_wait do
+      if yes(msg(:ubuntu_restart))
+        sudo_each 'shutdown -r now'
+        exit unless yes('Please wait a little while for your server to restart. Continue?')
       end
     end
     
@@ -31,8 +36,9 @@ Capistrano::Configuration.instance(:must_exist).load do
           aptitude.upgrade
           aptitude.essential
         else
-          msg :aptitude_instructions
+          exit unless yes(msg(:aptitude_instructions))
         end
+        ubuntu.restart_and_wait
       end
       
       desc 'Aptitude update'
@@ -118,7 +124,8 @@ Capistrano::Configuration.instance(:must_exist).load do
         if yes("May I install Apache?")
           sudo_puts [
             'aptitude install apache2 apache2-mpm-prefork apache2-utils apache2.2-common libapr1 libaprutil1 ssl-cert -q -y',
-            'a2enmod rewrite'
+            'a2enmod rewrite',
+            'a2dissite default'
           ]
         end
       end
@@ -138,7 +145,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         if yes("May I install MySQL?")
           sudo_puts 'aptitude install mysql-client-5.0 mysql-common mysql-server mysql-server-5.0 libmysqlclient15-dev libmysqlclient15off -q -y'
           ROOT.mysql.create.user
-          yes msg(:secure_mysql)
+          exit unless yes(msg(:secure_mysql))
         end
       end
       
@@ -151,7 +158,7 @@ Capistrano::Configuration.instance(:must_exist).load do
             "cd #{bin} && sudo chmod 0700 mysqltuner.pl",
             "cd #{bin} && sudo mv mysqltuner.pl mysqltuner"
           ]
-          yes msg(:mysqltuner_instructions)
+          exit unless yes(msg(:mysqltuner_instructions))
         end
       end
       
@@ -193,12 +200,12 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       desc 'Install Ruby'
       task :ruby, :roles => :app do
-        install_source(:ruby) do |path|
-          sudo_puts [
-            "aptitude install libopenssl-ruby -q -y",
-            make_install(path)
-          ]
-        end if yes("May I install Ruby?")
+        if yes("May I install Ruby?")
+          sudo_puts "aptitude install libopenssl-ruby -q -y"
+          install_source(:ruby) do |path|
+            sudo_puts make_install(path)
+          end
+        end
       end
       
       desc 'Install RubyGems'
@@ -235,7 +242,7 @@ Capistrano::Configuration.instance(:must_exist).load do
           upload_from_erb('/usr/local/etc/god/sshd.god',   binding, :folder => 'ubuntu') if yes(msg(:god_sshd))
           sudo_puts [
             'update-rc.d god defaults',
-            './etc/init.d/god start'
+            '/etc/init.d/god start'
           ]
         end
       end

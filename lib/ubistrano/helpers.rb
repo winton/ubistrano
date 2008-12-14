@@ -113,7 +113,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   end
   
   def space(str)
-    "\n#{'=' * 90}\n#{str}"
+    "\n#{'=' * 80}\n#{str}"
   end
 
 
@@ -161,12 +161,13 @@ If not, instructions for doing it manually will be displayed."
 "Please run these manually:
   sudo aptitude update
   sudo aptitude upgrade
-  sudo aptitude build-essential"
+  sudo aptitude build-essential
+Continue?"
     when :create_keys
 "May I generate an rsa ssh key pair in your ~/.ssh folder?"
     when :create_server_keys
-"May I generate an rsa ssh key pair in the server's ~/.ssh folder?
-The public key will be displayed."
+"May I generate an rsa ssh key pair on the server?
+The public key will be displayed for adding to your GitHub account."
     when :god
 "May I install God?" 
     when :god_apache
@@ -175,7 +176,7 @@ See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/apache
     when :god_mysql
 "Would you like God to monitor mysql?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/mysql.god.erb"
-    when :god_apache
+    when :god_sshd
 "Would you like God to monitor sshd?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/sshd.god.erb"
     when :have_keys
@@ -217,7 +218,8 @@ Continue?"
 "May I add sudo-without-password privileges for the deploy user?
 I will have to edit /etc/sudoers."
     when :ubuntu_restart
-"Would you like to restart the server now?"
+"Its probably a good idea to restart the server now.
+OK?"
     when :ubuntu_finished
 "That's it! Glad you made it.
 

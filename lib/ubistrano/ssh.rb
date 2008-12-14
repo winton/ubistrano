@@ -3,16 +3,22 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :ssh do
     desc 'Generate ssh keys and upload to server'
     task :default do
-      ssh.keys.create
+      ssh.keys.create.remote
+      ssh.keys.create.local
       ssh.keys.upload
     end
     
     namespace :keys do
-      desc "Creates an rsa ssh key pair (local or remote)"
-      task :create do
-        if ask(msg(:ssh_keys_create))[0..0].downcase == 'l'
-          system('ssh-keygen -t rsa') if yes(msg(:create_keys))
-        else
+      namespace :create do
+        desc "Creates an rsa ssh key pair (local)"
+        task :local do
+          if ask(msg(:ssh_keys_create))[0..0].downcase == 'l'
+            system('ssh-keygen -t rsa') if yes(msg(:create_keys))
+          end unless yes(msg(:have_keys)) 
+        end
+        
+        desc "Creates an rsa ssh key pair (remote)"
+        task :remote do
           if yes(msg(:create_server_keys))
             pass = ask "Enter a password for this key:"
             sudo_each [
@@ -22,7 +28,7 @@ Capistrano::Configuration.instance(:must_exist).load do
             ]
             sudo_puts "tail -1 /home/#{user}/.ssh/id_rsa.pub"
           end
-        end unless yes(msg(:have_keys))
+        end
       end
 
       desc "Uploads local ssh public keys into remote authorized_keys"
