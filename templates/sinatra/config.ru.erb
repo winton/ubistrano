@@ -1,10 +1,19 @@
 require 'sinatra'
 require 'rubygems'
- 
+
 Sinatra::Application.default_options.merge!(
   :run => false,
-  :env => :production
+  :env => :production,
+  :raise_errors => true,
+  :app_file => 'app.rb',
+  :root => '<%= deploy_to %>/current',
+  :views => '<%= deploy_to %>/current/views',
+  :public => '<%= deploy_to %>/current/public'
 )
- 
-require 'app.rb'
+
+log = File.new('<%= deploy_to %>/shared/log/sinatra.log', 'a')
+STDOUT.reopen(log)
+STDERR.reopen(log)
+
+require 'app'
 run Sinatra.application

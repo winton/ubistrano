@@ -14,7 +14,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :virtual_host do
       desc "Create a new virtual host"
       task :create, :roles => :web do
-        upload_from_erb "/etc/apache2/sites-available/#{application}_#{stage}", binding, :name => 'virtual_host', :folder => 'ubuntu'
+        upload_from_erb "/etc/apache2/sites-available/#{application}_#{stage}", binding, :name => 'virtual_host', :folder => 'apache'
       end
       
       desc "Enable a virtual host"

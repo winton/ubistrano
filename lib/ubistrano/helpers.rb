@@ -199,6 +199,8 @@ Reload apache?"
 "It is highly recommended you run mysql_secure_installation manually.
 See http://dev.mysql.com/doc/refman/5.1/en/mysql-secure-installation.html
 Continue?"
+    when :sinatra_install
+"Would you like to run install.rb (from your app) if it exists?"
     when :ssh_keys_create
 "Create rsa ssh key pairs locally or remotely? (default: remote)"
     when :ssh_keys_upload

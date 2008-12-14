@@ -3,10 +3,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :deploy do
     desc "Restart application"
     task :restart, :roles => :app, :except => { :no_release => true } do
-      run_each [
-        "mkdir #{current_path}/tmp",
-        "touch #{current_path}/tmp/restart.txt"
-      ]
+      run_each "touch #{current_path}/tmp/restart.txt"
     end
 
     desc "Start application"
@@ -27,23 +24,26 @@ Capistrano::Configuration.instance(:must_exist).load do
       ]
       mysql.create.db
       deploy.setup
-      deploy.update
-      apache.virtual_host.create
       case platform
+      when :php
+        deploy.update
       when :rails
         rails.config.default
+        deploy.update
         deploy.migrate
       when :sinatra
         sinatra.config.default
+        deploy.update
         sinatra.install
       end
+      apache.virtual_host.create
       deploy.start
       apache.reload
     end
   
     desc "Stop servers and destroy all files"
     task :destroy, :roles => :app do
-      deploy.stop
+      apache.virtual_host.destroy
       sudo "rm -Rf #{deploy_to}"
       mysql.destroy.db
     end

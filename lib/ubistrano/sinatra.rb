@@ -3,7 +3,9 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :sinatra do
     desc "Runs install.rb if exists"
     task :install do
-      run_puts "if [ -e #{current_path}/install.rb ]; then sudo ruby #{current_path}/install.rb; fi"
+      if yes(msg(:sinatra_install))
+        run_puts "if [ -e #{current_path}/install.rb ]; then sudo ruby #{current_path}/install.rb; fi"
+      end
     end
     
     namespace :config do
