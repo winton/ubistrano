@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name    = 'ubistrano'
-  s.version = '1.0.2'
-  s.date    = '2008-12-13'
+  s.version = '1.1.0'
+  s.date    = '2008-12-14'
   
   s.summary     = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
   s.description = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
     MIT-LICENSE
     README.markdown
     Rakefile
-    changelog.rdoc
+    changelog.markdown
     example/deploy.rb
     lib/ubistrano.rb
     lib/ubistrano/apache.rb
