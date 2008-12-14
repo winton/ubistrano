@@ -21,3 +21,11 @@ file 'ubistrano.gemspec' => FileList['{example,lib,templates}/**','Rakefile'] do
   File.open(f.name, 'w') { |io| io.write(spec) }
   puts "Updated #{f.name}"
 end
+
+# sudo rake install
+task :install do
+  `gem uninstall ubistrano`
+  `gem build ubistrano.gemspec`
+  `gem install ubistrano*.gem`
+  `rm ubistrano*.gem`
+end
