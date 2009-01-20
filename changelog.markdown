@@ -1,3 +1,9 @@
+Version 1.2.0
+-------------
+
+* New EC2 tasks
+* EC2 setup and `cap ubuntu` provision tested
+
 Version 1.1.0
 -------------
 

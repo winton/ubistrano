@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
   s.name    = 'ubistrano'
-  s.version = '1.1.0'
-  s.date    = '2008-12-14'
+  s.version = '1.2.0'
+  s.date    = '2008-1-20'
   
   s.summary     = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
   s.description = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
   
-  s.author   = 'AppTower'
-  s.email    = 'apptower@wintoni.us'
+  s.author   = 'Winton Welsh'
+  s.email    = 'mail@wintoni.us'
   s.homepage = 'http://github.com/AppTower/ubistrano'
   
   s.has_rdoc = false
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     lib/ubistrano.rb
     lib/ubistrano/apache.rb
     lib/ubistrano/deploy.rb
+    lib/ubistrano/ec2.rb
     lib/ubistrano/gems.rb
     lib/ubistrano/helpers.rb
     lib/ubistrano/log.rb
