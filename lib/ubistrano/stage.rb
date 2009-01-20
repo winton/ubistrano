@@ -22,8 +22,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     end
 
     role :app, host, :primary => true
-    role :web, host
-    role :db,  host
+    role :web, host, :primary => true
+    role :db,  host, :primary => true
   end
   
 end

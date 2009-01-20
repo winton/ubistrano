@@ -1,8 +1,12 @@
 set :ubistrano, {
   :application => :my_app,
-  :ec2_keys    => "#{File.dirname(__FILE__)}/ec2",
   :platform    => :rails,  # :php, :rails, :sinatra
   :repository  => 'git@github.com:user/my-app.git',
+  
+  :ec2 => {
+    :access_key => '',
+    :secret_key => ''
+  },
   
   :production => {
     :domains => [ 'myapp.com', 'www.myapp.com' ],
@@ -10,9 +14,7 @@ set :ubistrano, {
   },
   
   :staging => {
-    :domains => 'staging.myapp.com',
+    :domains => [ 'staging.myapp.com' ],
     :host    => '127.0.0.1'
   }
 }
-
-require 'ubistrano'

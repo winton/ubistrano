@@ -223,7 +223,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         if yes("May I install Passenger (mod_rails)?")
           sudo_puts 'aptitude install apache2-prefork-dev -q -y'
           gem_install :passenger
-          apache.reload if yes(msg(:passenger))
+          ROOT.apache.reload if yes(msg(:passenger))
         end
       end
       
