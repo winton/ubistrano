@@ -1,4 +1,7 @@
 
+require 'EC2'
+require 'pp'
+
 # Require helpers and recipes
 Dir["#{File.dirname(__FILE__)}/ubistrano/*.rb"].each { |f| require f }
 
@@ -11,7 +14,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     :db_user          => 'app',
     :db_pass          => '',
     :deploy_via       => :remote_cache,
-    :domain           => [],
+    :domains          => [],
     :platform         => :rails,
     :plugins          => {},
     :port             => 22,

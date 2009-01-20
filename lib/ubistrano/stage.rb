@@ -18,7 +18,6 @@ Capistrano::Configuration.instance(:must_exist).load do
     set :db_table,  "#{application}#{stage == :staging ? "_#{stage}" : ''}"    
     
     ubistrano[stage].each do |key, value|
-      value = [ value ].flatten if key == :domain
       set key, value
     end
 

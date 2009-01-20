@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-<% unless domain.empty? %>
-  ServerName  <%= domain.first %>
-  ServerAlias <%= domain[1..-1].join ' ' %>
+<% unless domains.empty? %>
+  ServerName  <%= domains.first %>
+  ServerAlias <%= domains[1..-1].join ' ' %>
 <% end %>
   DocumentRoot <%= deploy_to %>/current/public
 </VirtualHost>

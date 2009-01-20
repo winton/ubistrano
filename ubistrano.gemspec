@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/AppTower/ubistrano'
   
   s.has_rdoc = false
+  s.add_dependency 'amazon-ec2', '>= 0.3.2'
   
   # = MANIFEST =
   s.files = %w[

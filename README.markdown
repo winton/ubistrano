@@ -50,13 +50,13 @@ set :ubistrano, {
   :repository   => 'git@github.com:user/my-app.git',
   
   :production => {
-    :domain => [ 'myapp.com', 'www.myapp.com' ],
-    :host   => '127.0.0.1'
+    :domains => [ 'myapp.com', 'www.myapp.com' ],
+    :host    => '127.0.0.1'
   },
   
   :staging => {
-    :domain => 'staging.myapp.com',
-    :host   => '127.0.0.1'
+    :domains => 'staging.myapp.com',
+    :host    => '127.0.0.1'
   }
 }
 
