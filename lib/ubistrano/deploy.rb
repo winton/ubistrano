@@ -43,9 +43,21 @@ Capistrano::Configuration.instance(:must_exist).load do
   
     desc "Stop servers and destroy all files"
     task :destroy, :roles => :app do
-      sudo "rm -Rf #{deploy_to}"
+      sudo_each "rm -Rf #{deploy_to}"
       mysql.destroy.db
       apache.virtual_host.destroy
+    end
+    
+    namespace :web do
+      task :disable do
+        pub = "#{deploy_to}/current/public"
+        sudo_each "mv #{pub}/maintenance.html #{pub}/index.html"
+      end
+      
+      task :enable do
+        pub = "#{deploy_to}/current/public"
+        sudo_each "mv #{pub}/index.html #{pub}/maintenance.html"
+      end
     end
   end
   

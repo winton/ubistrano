@@ -74,7 +74,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       namespace :group do
         desc "Open standard ports for default security group"
         task :create do
-          [ 22, 80 ].each do |port|
+          [ 22, 80, 443 ].each do |port|
             ec2_api.authorize_security_group_ingress(
               :group_name => 'default', :cidr_ip => '0.0.0.0/0', :from_port => port, :to_port => port, :ip_protocol => 'tcp'
             )
