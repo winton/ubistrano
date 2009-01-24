@@ -10,6 +10,7 @@ set :ubistrano, {
   
   :production => {
     :domains => [ 'myapp.com', 'www.myapp.com' ],
+    :ssl     => [ 'myapp.com' ],
     :host    => '127.0.0.1'
   },
   

@@ -125,6 +125,7 @@ Capistrano::Configuration.instance(:must_exist).load do
           sudo_puts [
             'aptitude install apache2 apache2-mpm-prefork apache2-utils apache2.2-common libapr1 libaprutil1 ssl-cert -q -y',
             'a2enmod rewrite',
+            'a2enmod ssl',
             'a2dissite default'
           ]
         end

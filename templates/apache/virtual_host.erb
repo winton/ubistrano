@@ -1,7 +1,18 @@
 <VirtualHost *:80>
 <% unless domains.empty? %>
   ServerName  <%= domains.first %>
+<% if domains.length > 1 %>
   ServerAlias <%= domains[1..-1].join ' ' %>
+<% end %>
 <% end %>
   DocumentRoot <%= deploy_to %>/current/public
 </VirtualHost>
+
+<% ssl.each do |s| %>
+<VirtualHost *:443>
+  ServerName <%= s %>
+  SSLEngine On
+  SSLCertificateFile <%= deploy_to %>/current/<%= s %>.crt
+  SSLCertificateKeyFile <%= deploy_to %>/current/<%= s %>.key
+</VirtualHost>
+<% end unless ssl.empty? %>

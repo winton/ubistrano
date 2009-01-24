@@ -20,6 +20,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     :port             => 22,
     :repository_cache => 'git_cache',
     :scm              => :git,
+    :ssl              => [],
     :stage            => :production,
     :use_sudo         => false,
     :user             => 'deploy',
