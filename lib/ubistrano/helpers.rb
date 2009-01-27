@@ -229,10 +229,19 @@ Use `cap deploy` for all subsequent deploys.
 "
     when :upload_keys
 "May I copy all of your public keys in ~/.ssh to the server's authorized_keys?"
+    when :adduser
+"Please run the following commands:
+  ssh root@#{host}:#{port}
+  adduser #{user}
+
+"
     when :visudo
 "Please run the following commands:
-ssh root@#{host}:#{port}
-adduser #{user}
+  ssh root@#{host}
+  visudo
+
+Add the following line:
+  deploy ALL=NOPASSWD: ALL
 
 "
     end

@@ -4,7 +4,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Set up a fresh Ubuntu server"
     task :default do
       puts space(msg(:about_templates))
-      puts space(msg(:visudo)) unless yes("Have you already created the user defined in deploy.rb?")
+      puts space(msg(:adduser)) unless yes("Have you already created the user defined in deploy.rb?")
       ssh.default
       ubuntu.config.default
       ubuntu.aptitude.default
@@ -205,6 +205,7 @@ Capistrano::Configuration.instance(:must_exist).load do
           sudo_puts "aptitude install libopenssl-ruby -q -y"
           install_source(:ruby) do |path|
             sudo_puts make_install(path)
+            sudo_puts make_install(path) # install twice because openssl doesn't the first time
           end
         end
       end

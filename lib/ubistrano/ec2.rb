@@ -1,9 +1,14 @@
 Capistrano::Configuration.instance(:must_exist).load do
   
   namespace :ec2 do
-    desc "Set up your machine to use EC2"
+    desc "Set up a new EC2 instance and provision"
     task :default, :roles => :web do
       ec2.key_pair.install
+      ec2.instance.create
+      ec2.security.group.setup unless yes("Have you set up the default security group?")
+      exit unless yes("Add the instance's IP address to config/deploy.rb. Continue?")
+      puts msg(:visudo)
+      ubuntu
     end
     
     namespace :instance do      
@@ -53,14 +58,13 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :install do
         begin
           out = ec2_api.create_keypair(:key_name => application.to_s)
-          pp out
           key = out.keyMaterial
         rescue EC2::InvalidKeyPairDuplicate
           ec2.key_pair.remove
           ec2.key_pair.install
         end
         File.open(File.expand_path("~/.ssh/id_rsa-#{application}"), 'w') { |f| f.write key }
-        "chmod 600 ~/.ssh/id_rsa-#{application}"
+        `chmod 600 ~/.ssh/id_rsa-#{application}`
       end
 
       desc "Install key pair for SSH"
@@ -73,7 +77,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :security do
       namespace :group do
         desc "Open standard ports for default security group"
-        task :create do
+        task :setup do
           [ 22, 80, 443 ].each do |port|
             ec2_api.authorize_security_group_ingress(
               :group_name => 'default', :cidr_ip => '0.0.0.0/0', :from_port => port, :to_port => port, :ip_protocol => 'tcp'
