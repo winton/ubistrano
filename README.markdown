@@ -45,22 +45,26 @@ Getting started
 
 <pre>
 set :ubistrano, {
-  :application  => :my_app,
-  :platform     => :rails,  # :php, :rails, :sinatra
-  :repository   => 'git@github.com:user/my-app.git',
-  
+  :application => :my_app,
+  :platform    => :rails,  # :php, :rails, :sinatra
+  :repository  => 'git@github.com:user/my-app.git',
+
+  :ec2 => {
+    :access_key => '',
+    :secret_key => ''
+  },
+
   :production => {
     :domains => [ 'myapp.com', 'www.myapp.com' ],
+    :ssl     => [ 'myapp.com' ],
     :host    => '127.0.0.1'
   },
-  
+
   :staging => {
-    :domains => 'staging.myapp.com',
+    :domains => [ 'staging.myapp.com' ],
     :host    => '127.0.0.1'
   }
 }
-
-require 'ubistrano'
 </pre>
 
 Ubistrano uses the same Capistrano options you've come to love, but provides defaults and a few extra options as well.
