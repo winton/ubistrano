@@ -65,6 +65,8 @@ set :ubistrano, {
     :host    => '127.0.0.1'
   }
 }
+
+require 'ubistrano'
 </pre>
 
 Ubistrano uses the same Capistrano options you've come to love, but provides defaults and a few extra options as well.
