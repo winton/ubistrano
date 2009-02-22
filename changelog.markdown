@@ -1,3 +1,9 @@
+Version 1.2.2
+-------------
+
+* Hardened cap ec2 -> cap ubuntu -> cap ubuntu:install
+* There should be nothing to cause the user to stop and restart the tasks
+
 Version 1.2.0
 -------------
 

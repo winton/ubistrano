@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.name    = 'ubistrano'
-  s.version = '1.2.1'
-  s.date    = '2008-01-20'
+  s.version = '1.2.2'
+  s.date    = '2008-02-22'
   
   s.summary     = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
   s.description = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
   
   s.author   = 'Winton Welsh'
   s.email    = 'mail@wintoni.us'
-  s.homepage = 'http://github.com/AppTower/ubistrano'
+  s.homepage = 'http://github.com/winton/ubistrano'
   
   s.has_rdoc = false
   s.add_dependency 'amazon-ec2', '>= 0.3.2'
