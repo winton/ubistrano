@@ -5,10 +5,9 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :default, :roles => :web do
       ec2.key_pair.install
       ec2.instance.create
-      ec2.security.group.setup unless yes("Have you set up the default security group?")
+      ec2.security.group.setup if yes("Set up the default security group? You only need to do this once.")
       exit unless yes("Add the instance's IP address to config/deploy.rb. Continue?")
-      puts msg(:visudo)
-      ubuntu
+      puts space(msg(:ec2_finished))
     end
     
     namespace :instance do      
@@ -23,7 +22,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         pp instance
         ip = ec2_api.allocate_address.publicIp
         ec2_api.associate_address(:instance_id => instance_id, :public_ip => ip)
-        puts "Your instance id is: #{instance_id}"
+        puts "\nYour instance id is: #{instance_id}"
         puts "Your IP address  is: #{ip}"
       end
       
@@ -64,7 +63,6 @@ Capistrano::Configuration.instance(:must_exist).load do
           ec2.key_pair.install
         end
         File.open(File.expand_path("~/.ssh/id_rsa-#{application}"), 'w') { |f| f.write key }
-        `chmod 600 ~/.ssh/id_rsa-#{application}`
       end
 
       desc "Install key pair for SSH"

@@ -3,18 +3,16 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :ssh do
     desc 'Generate ssh keys and upload to server'
     task :default do
-      ssh.keys.create.remote
       ssh.keys.create.local
       ssh.keys.upload
+      ssh.keys.create.remote
     end
     
     namespace :keys do
       namespace :create do
         desc "Creates an rsa ssh key pair (local)"
         task :local do
-          if ask(msg(:ssh_keys_create))[0..0].downcase == 'l'
-            system('ssh-keygen -t rsa') if yes(msg(:create_keys))
-          end unless yes(msg(:have_keys)) 
+          system('ssh-keygen -t rsa') if yes(msg(:create_keys))
         end
         
         desc "Creates an rsa ssh key pair (remote)"
@@ -34,15 +32,16 @@ Capistrano::Configuration.instance(:must_exist).load do
       desc "Uploads local ssh public keys into remote authorized_keys"
       task :upload do
         if yes(msg(:upload_keys))
-          keys = ask msg(:ssh_keys_upload), get_ssh_keys
-          if keys.empty?
+          key = ask msg(:upload_keys_2)
+          key = get_ssh_key key
+          if key.nil?
             ssh.setup if yes("No keys found. Generate ssh keys now?")
           else
             sudo_each [
               "mkdir -p /home/#{user}/.ssh",
               "touch /home/#{user}/.ssh/authorized_keys"
             ]
-            add_line "/home/#{user}/.ssh/authorized_keys", keys.strip
+            add_line "/home/#{user}/.ssh/authorized_keys", key
             sudo_each [
               "chmod 0700 /home/#{user}/.ssh",
               "chmod 0600 /home/#{user}/.ssh/authorized_keys",

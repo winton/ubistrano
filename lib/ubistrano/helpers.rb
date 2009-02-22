@@ -44,7 +44,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   end
   
   def change_line(file, from, to)
-    sudo_each "sed 's/#{from}/#{to}/' #{file}"
+    sudo_each "sed -i 's/#{from}/#{to}/' #{file}"
   end
   
   def remove_line(file, *lines)
@@ -53,11 +53,16 @@ Capistrano::Configuration.instance(:must_exist).load do
     end
   end
 
-  def get_ssh_keys
-    keys = Dir[File.expand_path('~/.ssh/*.pub')].collect do |f|
-      File.open(f).collect { |line| line.strip.empty? ? nil : line.strip }.compact
+  def get_ssh_key(key)
+    key.gsub!('.pub', '')
+    key = File.expand_path("~/.ssh/#{key}")
+    key = Dir[key + '.pub', key].first
+    if key
+      keys = File.open(key).collect { |line| line.strip.empty? ? nil : line.strip }.compact
+      keys.join("\n")
+    else
+      nil
     end
-    keys.flatten.join("\n").strip
   end
 
   def upload_from_erb(destination, bind=nil, options={})
@@ -154,6 +159,14 @@ Capistrano::Configuration.instance(:must_exist).load do
 "Let's set up an Ubuntu server! (Tested with 8.04 LTS Hardy)
 
 With each task, Ubistrano will describe what it is doing, and wait for a yes/no."
+    when :add_user
+"Please ssh into your server (use -i only for EC2):
+  ssh root@#{host} -i ~/.ssh/id_rsa-#{application}
+
+Add your deploy user:
+  adduser #{user}
+
+Continue?"
     when :aptitude_default
 "Do you want me to run aptitude update, upgrade, and install build-essential?
 If not, instructions for doing it manually will be displayed."
@@ -162,12 +175,17 @@ If not, instructions for doing it manually will be displayed."
   sudo aptitude update
   sudo aptitude upgrade
   sudo aptitude build-essential
+
 Continue?"
     when :create_keys
 "May I generate an rsa ssh key pair in your ~/.ssh folder?"
     when :create_server_keys
 "May I generate an rsa ssh key pair on the server?
 The public key will be displayed for adding to your GitHub account."
+    when :ec2_finished
+"All finished! Run the following commands:
+  sudo chmod 600 ~/.ssh/id_rsa-#{application}
+  cap ubuntu"
     when :god
 "May I install God?" 
     when :god_apache
@@ -179,8 +197,6 @@ See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/mysql.
     when :god_sshd
 "Would you like God to monitor sshd?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/sshd.god.erb"
-    when :have_keys
-"Do you have rsa key pairs installed on your system? (see ~/.ssh/id_rsa)"
     when :iptables
 "May I update your server's iptables, limiting access to SSH, HTTP, HTTPS, and ping only?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/iptables.rules.erb"
@@ -196,16 +212,18 @@ Continue?"
 "Please run `sudo passenger-install-apache2-module` manually.
 The apache config file is found at /etc/apache2/apache2.conf.
 Reload apache?"
+    when :run_ubuntu_install
+"Client and server configuration complete.
+
+Please run the second half of the install:
+  cap ubuntu:install
+"
     when :secure_mysql
 "It is highly recommended you run mysql_secure_installation manually.
 See http://dev.mysql.com/doc/refman/5.1/en/mysql-secure-installation.html
 Continue?"
     when :sinatra_install
 "Would you like to run install.rb (from your app) if it exists?"
-    when :ssh_keys_create
-"Create rsa ssh key pairs locally or remotely? (default: remote)"
-    when :ssh_keys_upload
-"Press enter to copy all public keys (~/.ssh/*.pub), or paste a key: "
     when :sshd_config
 "May I update your server's sshd_config with the following settings?
   Port #{port}
@@ -214,12 +232,17 @@ Continue?"
   UsePAM no
   UseDNS no
 "
-    when :sudoers
-"May I add sudo-without-password privileges for the deploy user?
-I will have to edit /etc/sudoers."
+when :ssh_config
+"May I update your server's ssh_config with the following settings?
+  StrictHostKeyChecking no
+"
     when :ubuntu_restart
 "Its probably a good idea to restart the server now.
 OK?"
+    when :ubuntu_restart_2
+"Please wait a little while for your server to restart.
+
+Continue?"
     when :ubuntu_finished
 "That's it! Glad you made it.
 
@@ -228,22 +251,20 @@ Use `cap deploy` for all subsequent deploys.
 
 "
     when :upload_keys
-"May I copy all of your public keys in ~/.ssh to the server's authorized_keys?"
-    when :adduser
-"Please run the following commands:
-  ssh root@#{host}:#{port}
-  adduser #{user}
-
-"
+"Would you like to upload a ssh key to the deploy user's authorized_keys?"
+    when :upload_keys_2
+"Please enter a key in ~/.ssh to copy to the the deploy user's authorized_keys."
     when :visudo
-"Please run the following commands:
-  ssh root@#{host}
+"Please ssh into your server (use -i only for EC2):
+  ssh root@#{host} -i ~/.ssh/id_rsa-#{application}
+
+Edit your sudoers file:
   visudo
 
 Add the following line:
   deploy ALL=NOPASSWD: ALL
 
-"
+Continue?"
     end
   end
   

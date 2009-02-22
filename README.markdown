@@ -35,7 +35,7 @@ Getting started
 
 ### Install gem
 
-	gem install AppTower-ubistrano
+	gem install winton-ubistrano
 
 ### Capify your project
 

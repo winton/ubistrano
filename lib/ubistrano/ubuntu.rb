@@ -4,27 +4,20 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Set up a fresh Ubuntu server"
     task :default do
       puts space(msg(:about_templates))
-      puts space(msg(:adduser)) unless yes("Have you already created the user defined in deploy.rb?")
+      exit unless yes(msg(:visudo))
+      if yes("Create the remote deploy user?")
+        exit unless yes(msg(:add_user))
+      end
       ssh.default
       ubuntu.config.default
       ubuntu.aptitude.default
-      ubuntu.install.default
-      ubuntu.restart
-      puts space(msg(:ubuntu_finished))
+      puts space(msg(:run_ubuntu_install))
     end
     
     desc "Restart Ubuntu server"
     task :restart do
       if yes(msg(:ubuntu_restart))
         sudo_each 'shutdown -r now'
-      end
-    end
-    
-    desc "Restart Ubuntu server and wait"
-    task :restart_and_wait do
-      if yes(msg(:ubuntu_restart))
-        sudo_each 'shutdown -r now'
-        exit unless yes('Please wait a little while for your server to restart. Continue?')
       end
     end
     
@@ -35,10 +28,10 @@ Capistrano::Configuration.instance(:must_exist).load do
           aptitude.update
           aptitude.upgrade
           aptitude.essential
+          ubuntu.restart
         else
           exit unless yes(msg(:aptitude_instructions))
         end
-        ubuntu.restart_and_wait
       end
       
       desc 'Aptitude update'
@@ -60,8 +53,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :config do
       desc 'Run all tasks'
       task :default do
-        ubuntu.config.sudoers
         ubuntu.config.sshd_config
+        ubuntu.config.ssh_config
         ubuntu.config.iptables
       end
 
@@ -87,15 +80,17 @@ Capistrano::Configuration.instance(:must_exist).load do
           change_line '/etc/ssh/sshd_config', 'UsePAM yes',           'UsePAM no'
           remove_line '/etc/ssh/sshd_config', 'UseDNS .*'
           add_line    '/etc/ssh/sshd_config', 'UseDNS no'
+          remove_line '/etc/ssh/sshd_config', 'StrictHostKeyChecking .*'
           sudo_puts '/etc/init.d/ssh reload'
           set :port, ssh_port
         end
       end
       
-      desc "Updates sudoers file"
-      task :sudoers do
-        if yes(msg(:sudoers))
-          add_line '/etc/sudoers', "#{user} ALL=NOPASSWD: ALL"
+      desc "Updates ssh_config"
+      task :ssh_config do
+        if yes(msg(:ssh_config))
+          remove_line '/etc/ssh/ssh_config', 'StrictHostKeyChecking .*'
+          add_line    '/etc/ssh/ssh_config', 'StrictHostKeyChecking no'
         end
       end
     end
@@ -117,6 +112,8 @@ Capistrano::Configuration.instance(:must_exist).load do
         ubuntu.install.rails
         ubuntu.install.sinatra
         ubuntu.install.sphinx
+        ubuntu.restart
+        puts space(msg(:ubuntu_finished))
       end
       
       desc 'Install Apache'
