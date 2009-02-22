@@ -101,13 +101,22 @@ Set up your Ubuntu Hardy server
 ### Example output
 
 <pre>
-=================================================================================
+================================================================================
 Let's set up an Ubuntu server! (Tested with 8.04 LTS Hardy)
 
 With each task, Ubistrano will describe what it is doing, and wait for a yes/no.
 
-=================================================================================
-Have you already created the user defined in deploy.rb? (y/n)
+================================================================================
+Please ssh into your server (use -i only for EC2):
+  ssh root@174.129.232.34 -i ~/.ssh/id_rsa-studicious
+
+Edit your sudoers file:
+  visudo
+
+Add the following line:
+  deploy ALL=NOPASSWD: ALL
+
+Continue? (y/n)
 </pre>
 
 Deploy your app
