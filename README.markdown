@@ -42,7 +42,7 @@ Getting started
 ### Ubify your project
 
 <pre>
-cd your\_project
+cd your_project
 ubify .
 </pre>
 
