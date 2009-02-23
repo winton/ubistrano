@@ -1,3 +1,8 @@
+Version 1.2.4
+-------------
+
+* Complete EC2/Ubuntu Hardy provision and deploy tested with Rails and Sinatra
+
 Version 1.2.3
 -------------
 
