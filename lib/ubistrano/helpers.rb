@@ -209,6 +209,9 @@ See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/iptabl
     when :logrotate
 "May I add a logrotate entry for this application?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/log/rotate.conf.erb"
+    when :logrotate_suggest
+"All finished! Run `cap log:rotate` to add log rotating.
+"
     when :mysqltuner
 "Would you like to install MySQLTuner and receive instructions for running it?"
     when :mysqltuner_instructions

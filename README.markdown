@@ -66,7 +66,9 @@ set :ubistrano, {
   },
 
   :mysql => {
-    :password => ''
+    :root_password => '',
+    :app_password  => ''
+    # Ubistrano creates a mysql user for each app
   },
 
   :production => {
@@ -86,7 +88,7 @@ require 'ubistrano'
 
 Ubistrano uses the same Capistrano options you've come to love, but provides defaults and a few extra options as well.
 
-Edit deploy.rb to the best of your ability. If setting up an EC2 instance, be sure to provide your AWS keys. Your IP address will be provided later.
+Edit deploy.rb to the best of your ability. If setting up an EC2 instance, be sure to provide your AWS keys. Your IP address will be provided later. Provide passwords even if they haven't been created yet.
 
 Feel free to move any options into or out of the stage groups.
 

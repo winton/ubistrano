@@ -39,6 +39,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       apache.virtual_host.create
       deploy.start
       apache.reload
+      puts space(msg(:logrotate_suggest))
     end
   
     desc "Stop servers and destroy all files"

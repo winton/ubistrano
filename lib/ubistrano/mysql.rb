@@ -16,7 +16,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       desc "Create database user"
       task :user, :roles => :db do
         mysql_run [
-          "CREATE USER '#{application}'@'localhost' IDENTIFIED BY '#{mysql_password}'",
+          "CREATE USER '#{application}'@'localhost' IDENTIFIED BY '#{mysql_app_password}'",
           "GRANT ALL PRIVILEGES ON #{db_table}.* TO '#{application}'@'localhost'"
         ]
       end
@@ -57,7 +57,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       desc "Restore remote database from backup"
       task :restore, :roles => :db do
-        run_each "bunzip2 < #{shared_path}/db_backups/#{backup_name}.bz2 | mysql -u #{application} --password=#{mysql_password} #{db_table}"
+        run_each "bunzip2 < #{shared_path}/db_backups/#{backup_name}.bz2 | mysql -u #{application} --password=#{mysql_app_password} #{db_table}"
       end
       
       desc "Backup database to local"
@@ -71,7 +71,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :to_server, :roles => :db do
         run_each [
           "mkdir -p #{shared_path}/db_backups",
-          "mysqldump --add-drop-table -u #{application} -p#{mysql_password} #{db_table}_production | bzip2 -c > #{shared_path}/db_backups/#{backup_name}.bz2"
+          "mysqldump --add-drop-table -u #{application} -p#{mysql_app_password} #{db_table}_production | bzip2 -c > #{shared_path}/db_backups/#{backup_name}.bz2"
         ]
       end
       

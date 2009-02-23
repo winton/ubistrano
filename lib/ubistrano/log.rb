@@ -3,7 +3,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :log do
     desc "Add logrotate entry for this application"
     task :rotate, :roles => :app do
-      if yes(msg(:iptables))
+      if yes(msg(:logrotate))
         upload_from_erb '/etc/rotate.conf', binding, :folder => 'log'
         sudo_each [
           'cp -f /etc/logrotate.conf /etc/logrotate2.conf',
