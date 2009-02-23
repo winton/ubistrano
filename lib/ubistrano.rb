@@ -10,21 +10,21 @@ Capistrano::Configuration.instance(:must_exist).load do
   
   # Default capistrano/ubistrano values
   set :ubistrano, {
-    :base_dir         => '/var/www',
-    :db_user          => 'app',
-    :db_pass          => '',
-    :deploy_via       => :remote_cache,
-    :domains          => [],
-    :platform         => :rails,
-    :plugins          => {},
-    :port             => 22,
-    :repository_cache => 'git_cache',
-    :scm              => :git,
-    :ssl              => [],
-    :stage            => :production,
-    :use_sudo         => false,
-    :user             => 'deploy',
-    :versions         => {}
+    :base_dir             => '/var/www',
+    :deploy_via           => :remote_cache,
+    :domains              => [],
+    :mysql_root_password  => '',
+    :mysql_app_password   => '',
+    :platform             => :rails,
+    :plugins              => {},
+    :port                 => 22,
+    :repository_cache     => 'git_cache',
+    :scm                  => :git,
+    :ssl                  => [],
+    :stage                => :production,
+    :use_sudo             => false,
+    :user                 => 'deploy',
+    :versions             => {}
   }.merge(ubistrano)
   
   # Default plugins

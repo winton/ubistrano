@@ -22,7 +22,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         "mkdir -p #{base_dir}",
         "chown -R #{user}:#{user} #{base_dir}"
       ]
-      mysql.create.db
+      mysql.create
       deploy.setup
       case platform
       when :php

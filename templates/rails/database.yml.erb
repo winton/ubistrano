@@ -1,8 +1,8 @@
 development: &defaults
   adapter: mysql
   database: <%= db_table %>
-  username: <%= db_user %>
-  password: <%= db_pass %>
+  username: <%= user %>
+  password: <%= mysql_password %>
   host: localhost
   socket: /var/run/mysqld/mysqld.sock
 

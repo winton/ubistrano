@@ -120,7 +120,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :apache, :roles => :web do
         if yes("May I install Apache?")
           sudo_puts [
-            'aptitude install apache2 apache2-mpm-prefork apache2-utils apache2.2-common libapr1 libaprutil1 ssl-cert -q -y',
+            'aptitude install apache2 apache2-mpm-prefork apache2-utils apache2.2-common libapr1 libaprutil1 ssl-cert apache2-prefork-dev -q -y',
             'a2enmod rewrite',
             'a2enmod ssl',
             'a2dissite default'
@@ -142,7 +142,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :mysql, :roles => :db do
         if yes("May I install MySQL?")
           sudo_puts 'aptitude install mysql-client-5.0 mysql-common mysql-server mysql-server-5.0 libmysqlclient15-dev libmysqlclient15off -q -y'
-          ROOT.mysql.create.user
+          sudo "mysqladmin -u root password #{mysql_root_password || ''}"
           exit unless yes(msg(:secure_mysql))
         end
       end
@@ -202,7 +202,6 @@ Capistrano::Configuration.instance(:must_exist).load do
           sudo_puts "aptitude install libopenssl-ruby -q -y"
           install_source(:ruby) do |path|
             sudo_puts make_install(path)
-            sudo_puts make_install(path) # install twice because openssl doesn't the first time
           end
         end
       end
@@ -220,7 +219,6 @@ Capistrano::Configuration.instance(:must_exist).load do
       desc 'Install Passenger'
       task :passenger, :roles => :app do
         if yes("May I install Passenger (mod_rails)?")
-          sudo_puts 'aptitude install apache2-prefork-dev -q -y'
           gem_install :passenger
           ROOT.apache.reload if yes(msg(:passenger))
         end
@@ -240,9 +238,9 @@ Capistrano::Configuration.instance(:must_exist).load do
           upload_from_erb('/usr/local/etc/god/mysql.god',  binding, :folder => 'ubuntu') if yes(msg(:god_mysql))
           upload_from_erb('/usr/local/etc/god/sshd.god',   binding, :folder => 'ubuntu') if yes(msg(:god_sshd))
           sudo_puts [
-            'update-rc.d god defaults',
-            '/etc/init.d/god start'
+            'update-rc.d god defaults'
           ]
+          exit unless yes(msg(:god_finished))
         end
       end
       

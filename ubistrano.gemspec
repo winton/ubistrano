@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = 'ubistrano'
-  s.version = '1.2.2'
+  s.version = '1.2.3'
   s.date    = '2008-02-22'
   
   s.summary     = "Provision and deploy to an Ubuntu/God/Apache/Passenger stack using Capistrano"
@@ -10,14 +10,16 @@ Gem::Specification.new do |s|
   s.email    = 'mail@wintoni.us'
   s.homepage = 'http://github.com/winton/ubistrano'
   
-  s.has_rdoc = false
   s.add_dependency 'amazon-ec2', '>= 0.3.2'
+  s.executables = ["ubify"]
+  s.has_rdoc = false
   
   # = MANIFEST =
   s.files = %w[
     MIT-LICENSE
     README.markdown
     Rakefile
+    bin/ubify
     changelog.markdown
     example/deploy.rb
     lib/ubistrano.rb

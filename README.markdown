@@ -10,13 +10,13 @@ Goals
 * Provision a solid Ubuntu Hardy application server in one command (<code>cap ubuntu</code>)
 * Deploy PHP, Rails, and Sinatra apps
 * Be descriptive about what is going on and allow the user to opt out
-* Simplify the deploy.rb file
+* Simplify the <code>deploy.rb</code> file
 
 The stack
 ---------
 
-* EC2 (optional)
 * Apache
+* EC2 (optional)
 * Git
 * MySQL
 * MySQLTuner
@@ -39,11 +39,18 @@ Getting started
 
 	gem install winton-ubistrano
 
-### Capify your project
+### Ubify your project
 
-	capify .
+  cd your\_project
+	ubify .
 
-### Edit config/deploy.rb
+* Runs <code>capify</code>
+* Creates <code>config/deploy.example.rb</code>
+* Adds <code>config/deploy.rb</code> to your project's <code>.gitignore</code>
+
+### Copy config/deploy.example.rb to config/deploy.rb
+
+It should look like this:
 
 <pre>
 set :ubistrano, {
@@ -54,6 +61,10 @@ set :ubistrano, {
   :ec2 => {
     :access_key => '',
     :secret_key => ''
+  },
+
+  :mysql => {
+    :password => ''
   },
 
   :production => {
@@ -73,16 +84,16 @@ require 'ubistrano'
 
 Ubistrano uses the same Capistrano options you've come to love, but provides defaults and a few extra options as well.
 
-Feel free to add standard options like :user to the stage groups.
+Edit deploy.rb to the best of your ability. If setting up an EC2 instance, be sure to provide your AWS keys. Your IP address will be provided later.
 
-Edit <code>deploy.rb</code> to the best of your ability. If setting up an EC2 instance, be sure to provide your AWS keys. You will be provided your IP addresses later.
+Feel free to move any options into or out of the stage groups.
 
 Create your EC2 instance
 ------------------------
 
 ### From your app directory
 
-<pre>cap ec2</pre>
+  cap ec2
 
 ### Example output
 
@@ -96,7 +107,7 @@ Set up your Ubuntu Hardy server
 
 ### From your app directory
 
-<pre>cap ubuntu</pre>
+  cap ubuntu
 
 ### Example output
 
@@ -136,7 +147,7 @@ All apps should have a <code>public</code> directory.
 Deploy to staging
 -----------------
 
-Use any capistrano task, but replace `cap` with `cap staging`.
+Use any capistrano task, but replace <code>cap</code> with <code>cap staging</code>.
 
 ### Example
 

@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+UBISTRANO = File.expand_path("../", File.dirname(__FILE__))
+TO = File.expand_path("#{ARGV.join(' ')}", FileUtils.pwd)
+
+# Capify
+`capify #{TO}`
+
+# Copy config/deploy.example.rb
+FileUtils.cp "#{UBISTRANO}/example/deploy.rb", "#{TO}/config/deploy.example.rb"
+
+# Add config/deploy.rb to .gitignore
+File.open("#{TO}/.gitignore", 'a') { |f| f.write("\nconfig/deploy.rb\n") }

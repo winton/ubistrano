@@ -24,8 +24,8 @@ end
 
 # sudo rake install
 task :install do
-  `gem uninstall ubistrano`
+  `sudo gem uninstall ubistrano -x`
   `gem build ubistrano.gemspec`
-  `gem install ubistrano*.gem`
+  `sudo gem install ubistrano*.gem`
   `rm ubistrano*.gem`
 end

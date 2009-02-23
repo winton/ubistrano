@@ -8,6 +8,12 @@ set :ubistrano, {
     :secret_key => ''
   },
   
+  :mysql => {
+    :root_password => '',
+    :app_password  => ''
+    # Ubistrano creates a mysql user for each app
+  },
+  
   :production => {
     :domains => [ 'myapp.com', 'www.myapp.com' ],
     :ssl     => [ 'myapp.com' ],

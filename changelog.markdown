@@ -1,3 +1,10 @@
+Version 1.2.3
+-------------
+
+* Added bin/ubify which executes capify in addition to copying config/deploy.example.rb and adding config/deploy.rb to the project's .gitignore
+* Added mysql option in deploy.rb
+* Minor ubuntu:install fixes
+
 Version 1.2.2
 -------------
 

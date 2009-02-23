@@ -98,8 +98,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   end
 
   def mysql_call
-    @mysql_root_password = @mysql_root_password || ask("Password for mysql root:")
-    "mysql -u root --password=#{@mysql_root_password}"
+    "mysql -f -u root --password=#{mysql_root_password || ''}"
   end
 
 
@@ -197,6 +196,13 @@ See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/mysql.
     when :god_sshd
 "Would you like God to monitor sshd?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/sshd.god.erb"
+    when :god_finished
+"Please run the following commands:
+  ssh #{user}@#{host}
+  sudo /etc/init.d/god start
+  sudo /etc/init.d/god start
+
+Continue?"
     when :iptables
 "May I update your server's iptables, limiting access to SSH, HTTP, HTTPS, and ping only?
 See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/ubuntu/iptables.rules.erb"
@@ -209,7 +215,10 @@ See #{File.expand_path '../../', File.dirname(__FILE__)}/templates/log/rotate.co
 "Please ssh to your server and run `sudo mysqltuner`.
 Continue?"
     when :passenger
-"Please run `sudo passenger-install-apache2-module` manually.
+"Please run the following commands:
+  ssh #{user}@#{host}
+  sudo passenger-install-apache2-module
+
 The apache config file is found at /etc/apache2/apache2.conf.
 Reload apache?"
     when :run_ubuntu_install
@@ -217,9 +226,13 @@ Reload apache?"
 
 Please run the second half of the install:
   cap ubuntu:install
+
 "
     when :secure_mysql
-"It is highly recommended you run mysql_secure_installation manually.
+"It is highly recommended you run mysql_secure_installation manually:
+  ssh #{user}@#{host}
+  mysql_secure_installation
+  
 See http://dev.mysql.com/doc/refman/5.1/en/mysql-secure-installation.html
 Continue?"
     when :sinatra_install
