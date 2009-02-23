@@ -41,8 +41,10 @@ Getting started
 
 ### Ubify your project
 
-  cd your\_project
-	ubify .
+<pre>
+cd your\_project
+ubify .
+</pre>
 
 * Runs <code>capify</code>
 * Creates <code>config/deploy.example.rb</code>
@@ -93,7 +95,9 @@ Create your EC2 instance
 
 ### From your app directory
 
-  cap ec2
+<pre>
+cap ec2
+</pre>
 
 ### Example output
 
@@ -107,7 +111,9 @@ Set up your Ubuntu Hardy server
 
 ### From your app directory
 
-  cap ubuntu
+<pre>
+cap ubuntu
+</pre>
 
 ### Example output
 
