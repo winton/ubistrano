@@ -1,3 +1,9 @@
+Version 1.2.5
+-------------
+
+* Removing unnecessary tmp/restart.txt touch for PHP apps
+* Fixed some of the mysql:backup tasks
+
 Version 1.2.4
 -------------
 

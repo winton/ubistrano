@@ -46,10 +46,10 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :backup do
       desc "Upload local backup to remote"
       task :local_to_server, :roles => :db do
-        from = File.expand_path("~/db_backups/#{stage}/#{application}/#{backup_name}.bz2")
+        from = File.expand_path("backups/#{backup_name}.bz2", FileUtils.pwd)
         if File.exists?(from)
-          run_each "mkdir -p #{shared_path}/db_backups"
-          upload from, "#{shared_path}/db_backups/#{backup_name}.bz2"
+          run_each "mkdir -p #{shared_path}/backups"
+          upload from, "#{shared_path}/backups/#{backup_name}.bz2"
         else
           puts "Does not exist: #{from}"
         end
@@ -57,7 +57,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       desc "Restore remote database from backup"
       task :restore, :roles => :db do
-        run_each "bunzip2 < #{shared_path}/db_backups/#{backup_name}.bz2 | mysql -u #{application} --password=#{mysql_app_password} #{db_table}"
+        run_each "bunzip2 < #{shared_path}/backups/#{backup_name}.bz2 | mysql -u #{application} --password=#{mysql_app_password} #{db_table}"
       end
       
       desc "Backup database to local"
@@ -71,7 +71,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :to_server, :roles => :db do
         run_each [
           "mkdir -p #{shared_path}/db_backups",
-          "mysqldump --add-drop-table -u #{application} -p#{mysql_app_password} #{db_table}_production | bzip2 -c > #{shared_path}/db_backups/#{backup_name}.bz2"
+          "mysqldump --add-drop-table -u #{application} -p#{mysql_app_password} #{db_table} | bzip2 -c > #{shared_path}/db_backups/#{backup_name}.bz2"
         ]
       end
       

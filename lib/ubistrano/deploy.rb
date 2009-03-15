@@ -3,7 +3,10 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :deploy do
     desc "Restart application"
     task :restart, :roles => :app, :except => { :no_release => true } do
-      run_each "touch #{current_path}/tmp/restart.txt"
+      case platform
+      when :rails, :sinatra
+        run_each "touch #{current_path}/tmp/restart.txt"
+      end
     end
 
     desc "Start application"

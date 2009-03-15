@@ -30,7 +30,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       desc "Configure asset_packager" 
       task :asset_packager do
-        run "source ~/.bash_profile && cd #{release_path} && rake RAILS_ENV=production asset:packager:build_all"
+        run "cd #{release_path} && rake RAILS_ENV=production asset:packager:build_all"
       end
       
       desc "Configure rails_widget"
