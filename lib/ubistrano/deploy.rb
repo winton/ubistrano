@@ -37,7 +37,6 @@ Capistrano::Configuration.instance(:must_exist).load do
       when :sinatra
         sinatra.config.default
         deploy.update
-        sinatra.install
       end
       apache.virtual_host.create
       deploy.start

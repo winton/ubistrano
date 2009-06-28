@@ -1,3 +1,8 @@
+Version 1.2.6
+-------------
+
+* Sinatra projects should have their own config.ru present, getting rid of sinatra:install
+
 Version 1.2.5
 -------------
 
