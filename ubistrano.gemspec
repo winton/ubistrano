@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
     templates/apache/virtual_host.erb
     templates/log/rotate.conf.erb
     templates/rails/database.yml.erb
-    templates/sinatra/config.ru.erb
     templates/ubuntu/apache.god.erb
     templates/ubuntu/god.erb
     templates/ubuntu/god.god.erb
