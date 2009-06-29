@@ -1,3 +1,10 @@
+Version 1.2.7
+-------------
+
+* More work on Sinatra tasks
+* God init.d updates
+* Better Rakefile
+
 Version 1.2.6
 -------------
 

@@ -10,18 +10,18 @@ RETVAL=0
 
 case "$1" in
     start)
-      /usr/local/bin/god -P /var/run/god.pid -l /var/log/god.log
-      /usr/local/bin/god load /usr/local/etc/god.god
+      sudo /usr/local/bin/god -P /var/run/god.pid -l /var/log/god.log
+      sudo /usr/local/bin/god load /usr/local/etc/god.god
       RETVAL=$?
   ;;
     stop)
-      kill `cat /var/run/god.pid`
+      sudo kill `cat /var/run/god.pid`
       RETVAL=$?
   ;;
     restart)
-      kill `cat /var/run/god.pid`
-      /usr/local/bin/god -P /var/run/god.pid -l /var/log/god.log
-      /usr/local/bin/god load /usr/local/etc/god.god
+      sudo kill `cat /var/run/god.pid`
+      sudo /usr/local/bin/god -P /var/run/god.pid -l /var/log/god.log
+      sudo /usr/local/bin/god load /usr/local/etc/god.god
       RETVAL=$?
   ;;
     status)

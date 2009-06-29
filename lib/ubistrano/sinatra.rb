@@ -10,9 +10,9 @@ Capistrano::Configuration.instance(:must_exist).load do
         end
       end
       
-      desc "Copies files in the shared config folder into our app"
+      desc "Copies yml files in the shared config folder into our app config"
       task :to_app, :roles => :app do
-        run "cp -Rf #{shared_path}/config/* #{release_path}"
+        run "cp -Rf #{shared_path}/config/* #{release_path}/config"
       end
     end
   end

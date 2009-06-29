@@ -1,31 +1,25 @@
+require 'rubygems'
 require 'rake'
+require 'rake/gempackagetask'
+require 'spec/rake/spectask'
+require 'gemspec'
 
-task :default => 'ubistrano.gemspec'
-
-file 'ubistrano.gemspec' => FileList['{example,lib,templates}/**','Rakefile'] do |f|
-  # read spec file and split out manifest section
-  spec = File.read(f.name)
-  parts = spec.split("  # = MANIFEST =\n")
-  fail 'bad spec' if parts.length != 3
-  # determine file list from git ls-files
-  files = `git ls-files`.
-    split("\n").
-    sort.
-    reject{ |file| file =~ /^\./ }.
-    reject { |file| file =~ /^doc/ }.
-    map{ |file| "    #{file}" }.
-    join("\n")
-  # piece file back together and write...
-  parts[1] = "  s.files = %w[\n#{files}\n  ]\n"
-  spec = parts.join("  # = MANIFEST =\n")
-  File.open(f.name, 'w') { |io| io.write(spec) }
-  puts "Updated #{f.name}"
+desc "Generate gemspec"
+task :gemspec do
+  File.open("#{Dir.pwd}/#{GEM_NAME}.gemspec", 'w') do |f|
+    f.write(GEM_SPEC.to_ruby)
+  end
 end
 
-# sudo rake install
+desc "Install gem"
 task :install do
-  `sudo gem uninstall ubistrano -x`
-  `gem build ubistrano.gemspec`
-  `sudo gem install ubistrano*.gem`
-  `rm ubistrano*.gem`
+  Rake::Task['gem'].invoke
+  `sudo gem uninstall #{GEM_NAME} -x`
+  `sudo gem install pkg/#{GEM_NAME}*.gem`
+  `rm -Rf pkg`
+end
+
+desc "Package gem"
+Rake::GemPackageTask.new(GEM_SPEC) do |pkg|
+  pkg.gem_spec = GEM_SPEC
 end

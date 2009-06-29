@@ -1,4 +1,5 @@
 
+gem 'amazon-ec2', '=0.4.5'
 require 'EC2'
 require 'pp'
 
