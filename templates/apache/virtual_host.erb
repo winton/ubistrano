@@ -26,7 +26,7 @@ NameVirtualHost *:443
   CustomLog <%= deploy_to %>/current/log/access.log combined
   
   SSLEngine On
-  SSLCertificateFile <%= deploy_to %>/current/cert/<%= s %>.crt
-  SSLCertificateKeyFile <%= deploy_to %>/current/cert/<%= s %>.key
+  SSLCertificateFile <%= deploy_to %>/shared/cert/<%= s %>.crt
+  SSLCertificateKeyFile <%= deploy_to %>/shared/cert/<%= s %>.key
 </VirtualHost>
 <% end unless ssl.empty? %>
